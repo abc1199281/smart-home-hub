@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "pyyaml>=6.0.3",
     "tapo>=0.8.11",
+    "tinytuya>=1.17.6",
 ]
 
 [dependency-groups]

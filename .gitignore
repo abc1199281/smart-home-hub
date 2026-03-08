@@ -11,3 +11,4 @@ wheels/
 
 # Config contains credentials
 config.yaml
+tinytuya.json

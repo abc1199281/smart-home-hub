@@ -6,8 +6,8 @@
 
 | 設備 | 協定 | 狀態 |
 |------|------|------|
-| Tapo P100 智慧插座 | LAN (PyP100) | 實機測試中 |
-| ProBreeze 除濕機 | Midea/Tuya | 規劃中 |
+| Tapo P100 智慧插座 | LAN (tapo) | 實機測試中 |
+| ProBreeze 除濕機 | LAN (tinytuya) | 實機測試通過 |
 | LG 洗脫烘 | ThinQ Cloud API | 規劃中 |
 | SwitchBot Bot | BLE | 規劃中 |
 
@@ -34,25 +34,37 @@ devices:
     host: 192.168.1.100          # Tapo 插座的 LAN IP
     email: your_tapo_email@example.com   # Tapo app 登入帳號
     password: your_tapo_password         # Tapo app 登入密碼
+
+  - name: dehumidifier
+    type: probreeze
+    host: 192.168.1.101          # 除濕機的 LAN IP
+    device_id: your_tuya_device_id       # 從 Tuya IoT Platform 取得
+    local_key: your_tuya_local_key       # 從 Tuya IoT Platform 取得
 ```
 
 ## 使用方式
 
 ```bash
-# 開啟設備
+# 開啟/關閉設備
 uv run python -m smart_home_hub tapo on
-
-# 關閉設備
 uv run python -m smart_home_hub tapo off
 
 # 查詢設備狀態
 uv run python -m smart_home_hub tapo status
+
+# 也可以用設備名稱來指定
+uv run python -m smart_home_hub living_room_plug status
 ```
 
-也可以用設備名稱來指定：
+### ProBreeze 除濕機
 
 ```bash
-uv run python -m smart_home_hub living_room_plug status
+uv run python -m smart_home_hub probreeze on
+uv run python -m smart_home_hub probreeze off
+uv run python -m smart_home_hub probreeze status
+
+# 設定目標濕度
+uv run python -m smart_home_hub probreeze set_humidity --value 55
 ```
 
 ## 測試
@@ -70,7 +82,8 @@ smart_home_hub/
 └── devices/
     ├── __init__.py
     ├── base.py            # Device 抽象基底類別 (on, off, status)
-    └── tapo.py            # Tapo P100 實作
+    ├── tapo.py            # Tapo P100 實作
+    └── probreeze.py       # ProBreeze 除濕機實作
 config.sample.yaml         # 設定檔範例（納入版控）
 config.yaml                # 實際設定檔（已 gitignore）
 tests/
