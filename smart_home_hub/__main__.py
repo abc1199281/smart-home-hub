@@ -38,9 +38,10 @@ def load_config(path: Path) -> dict:
 def get_device(config: dict, device_name: str):
     for dev_cfg in config["devices"]:
         if dev_cfg["name"] == device_name or dev_cfg["type"] == device_name:
-            dtype = dev_cfg.pop("type")
+            dtype = dev_cfg["type"]
             cls = DEVICE_TYPES[dtype]
-            return cls(**dev_cfg)
+            kwargs = {k: v for k, v in dev_cfg.items() if k != "type"}
+            return cls(**kwargs)
     print(f"Device '{device_name}' not found in config.")
     sys.exit(1)
 
