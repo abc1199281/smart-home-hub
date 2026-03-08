@@ -1,4 +1,6 @@
 import argparse
+import os
+import re
 import sys
 from pathlib import Path
 
@@ -13,17 +15,33 @@ DEVICE_TYPES = {
 }
 
 
+def _resolve_env_vars(obj):
+    """Recursively replace ${VAR} references with environment variable values."""
+    if isinstance(obj, str):
+        return re.sub(
+            r"\$\{(\w+)\}",
+            lambda m: os.environ.get(m.group(1), m.group(0)),
+            obj,
+        )
+    if isinstance(obj, dict):
+        return {k: _resolve_env_vars(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_resolve_env_vars(item) for item in obj]
+    return obj
+
+
 def load_config(path: Path) -> dict:
     with open(path) as f:
-        return yaml.safe_load(f)
+        return _resolve_env_vars(yaml.safe_load(f))
 
 
 def get_device(config: dict, device_name: str):
     for dev_cfg in config["devices"]:
         if dev_cfg["name"] == device_name or dev_cfg["type"] == device_name:
-            dtype = dev_cfg.pop("type")
+            dtype = dev_cfg["type"]
             cls = DEVICE_TYPES[dtype]
-            return cls(**dev_cfg)
+            kwargs = {k: v for k, v in dev_cfg.items() if k != "type"}
+            return cls(**kwargs)
     print(f"Device '{device_name}' not found in config.")
     sys.exit(1)
 

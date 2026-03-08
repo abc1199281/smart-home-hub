@@ -2,12 +2,12 @@ devices:
   - name: living_room_plug
     type: tapo
     host: 192.168.1.100
-    email: your_tapo_email@example.com
-    password: your_tapo_password
+    email: ${TAPO_EMAIL}                   # or hardcode: your@email.com
+    password: ${TAPO_PASSWORD}              # or hardcode: your_password
 
   - name: dehumidifier
     type: probreeze
     host: 192.168.1.101
-    device_id: your_tuya_device_id        # from Tuya IoT Platform
-    local_key: your_tuya_local_key        # from Tuya IoT Platform
+    device_id: ${TUYA_DEVICE_ID}           # from Tuya IoT Platform
+    local_key: ${TUYA_LOCAL_KEY}           # from Tuya IoT Platform
     # version: 3.3                        # optional, default 3.3
