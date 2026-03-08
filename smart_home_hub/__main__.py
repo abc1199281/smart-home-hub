@@ -1,4 +1,6 @@
 import argparse
+import os
+import re
 import sys
 from pathlib import Path
 
@@ -13,9 +15,24 @@ DEVICE_TYPES = {
 }
 
 
+def _resolve_env_vars(obj):
+    """Recursively replace ${VAR} references with environment variable values."""
+    if isinstance(obj, str):
+        return re.sub(
+            r"\$\{(\w+)\}",
+            lambda m: os.environ.get(m.group(1), m.group(0)),
+            obj,
+        )
+    if isinstance(obj, dict):
+        return {k: _resolve_env_vars(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_resolve_env_vars(item) for item in obj]
+    return obj
+
+
 def load_config(path: Path) -> dict:
     with open(path) as f:
-        return yaml.safe_load(f)
+        return _resolve_env_vars(yaml.safe_load(f))
 
 
 def get_device(config: dict, device_name: str):
