@@ -1,0 +1,6 @@
+devices:
+  - name: living_room_plug
+    type: tapo
+    host: 192.168.1.100
+    email: your_tapo_email@example.com
+    password: your_tapo_password
