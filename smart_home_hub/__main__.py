@@ -7,11 +7,13 @@ from pathlib import Path
 import yaml
 
 from .devices.probreeze import ProBreeze
+from .devices.switchbot import SwitchBotBot
 from .devices.tapo import TapoP100
 
 DEVICE_TYPES = {
     "tapo": TapoP100,
     "probreeze": ProBreeze,
+    "switchbot": SwitchBotBot,
 }
 
 

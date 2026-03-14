@@ -5,7 +5,7 @@ from typing import Any
 class Device(ABC):
     """Abstract base class for all smart home devices."""
 
-    def __init__(self, name: str, host: str, **kwargs: Any):
+    def __init__(self, name: str, host: str | None = None, **kwargs: Any):
         self.name = name
         self.host = host
 
@@ -22,4 +22,6 @@ class Device(ABC):
         ...
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name!r}, host={self.host!r})"
+        if self.host is not None:
+            return f"{self.__class__.__name__}(name={self.name!r}, host={self.host!r})"
+        return f"{self.__class__.__name__}(name={self.name!r})"
