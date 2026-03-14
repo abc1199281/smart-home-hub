@@ -11,3 +11,9 @@ devices:
     device_id: ${TUYA_DEVICE_ID}           # from Tuya IoT Platform
     local_key: ${TUYA_LOCAL_KEY}           # from Tuya IoT Platform
     # version: 3.3                        # optional, default 3.3
+
+  - name: bedroom_switch
+    type: switchbot
+    token: ${SWITCHBOT_TOKEN}              # from SwitchBot app Developer Options
+    secret: ${SWITCHBOT_SECRET}            # from SwitchBot app Developer Options
+    device_id: C76B03C62480                # from API /v1.1/devices or MAC without colons
