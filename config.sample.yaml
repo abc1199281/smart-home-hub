@@ -16,4 +16,4 @@ devices:
     type: switchbot
     token: ${SWITCHBOT_TOKEN}              # from SwitchBot app Developer Options
     secret: ${SWITCHBOT_SECRET}            # from SwitchBot app Developer Options
-    device_id: C76B03C62480                # from API /v1.1/devices or MAC without colons
+    device_id: ${SWITCHBOT_DEVICE_ID}         # from API /v1.1/devices or MAC without colons

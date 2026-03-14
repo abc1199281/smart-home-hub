@@ -43,7 +43,7 @@ class SwitchBotBot(Device):
         url = f"{API_BASE}{path}"
         data = json.dumps(body).encode() if body else None
         req = urllib.request.Request(url, data=data, method=method, headers=self._make_headers())
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=10) as resp:
             result = json.loads(resp.read())
         if result.get("statusCode") != 100:
             raise RuntimeError(f"SwitchBot API error: {result.get('message', 'unknown error')}")
